@@ -6,7 +6,9 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -20,6 +22,7 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.toyelabs.quotes.data.LocalQuotesDataSource
 import com.toyelabs.quotes.data.Quote
+import com.toyelabs.quotes.service.RefreshQuote
 
 class QuotesWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -36,8 +39,9 @@ class QuotesWidget : GlanceAppWidget() {
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .background(GlanceTheme.colors.background)
-                    .padding(8.dp),
-                verticalAlignment = Alignment.Top,
+                    .padding(8.dp)
+                    .clickable(actionRunCallback(RefreshQuote()::class.java)),
+                verticalAlignment = Alignment.Top
             ) {
                 Text(
                     text = quote.text,
